@@ -22,8 +22,8 @@ There are three types of menus available. Default is a menu and requires no
 extra properties. To use Radio or Checkbox add the following property:
 
 ```
-  data-menu="radio"
-  data-menu="checkbox"
+data-menu="radio"
+data-menu="checkbox"
 ```
 
 ### Example:
@@ -41,17 +41,17 @@ extra properties. To use Radio or Checkbox add the following property:
 If you would like the Radio menu to be optional add the following property:
 
 ```
-  data-menurequired="false"
+data-menurequired="false"
 ```
 
 ### Example:
 
 ```html
-  <div class="menubar" data-menu="radio" data-menurequired="false">
-    <a href="#" class="btn">Yes</a>
-    <a href="#" class="btn">Maybe</a>
-    <a href="#" class="btn">No</a>
-  </div>
+<div class="menubar" data-menu="radio" data-menurequired="false">
+  <a href="#" class="btn">Yes</a>
+  <a href="#" class="btn">Maybe</a>
+  <a href="#" class="btn">No</a>
+</div>
 ```
 
 ### Default element
@@ -60,12 +60,12 @@ Setting a default item is done using the `defaultClass` option.
 
 ### Example:
 ```html
-  <div class="menubar" data-menu="radio">
-    <a href="#" class="btn">Left</a>
-    <a href="#" class="btn">Center</a>
-    <a href="#" class="btn menuDefault">Right</a>
-    <a href="#" class="btn">Justified</a>
-  </div>
+<div class="menubar" data-menu="radio">
+  <a href="#" class="btn">Left</a>
+  <a href="#" class="btn">Center</a>
+  <a href="#" class="btn menuDefault">Right</a>
+  <a href="#" class="btn">Justified</a>
+</div>
 ```
 
 Options
