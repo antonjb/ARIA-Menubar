@@ -1,0 +1,167 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+
+  <style>
+    
+    body {
+      font: 0.8em Verdana;
+    }
+
+    img {
+      border: none;
+    }
+
+    div[role="menubar"] {
+      position: relative;
+      *zoom: 1;
+    }
+
+    div[role="menubar"]:before,
+    div[role="menubar"]:after {
+      display: table;
+      content: "";
+    }
+
+    div[role="menubar"]:after {
+      clear: both;
+    }
+
+    div[role="menubar"] + div[role="menubar"] {
+      margin-left: 10px;
+    }
+
+    div[role="menu"] {
+      margin-bottom: 10px;
+    }
+
+    div[role="menu"] div[role="menubar"] {
+      display: inline-block;
+      *display: inline; /* IE7 */
+      *zoom: 1;
+    }
+
+    div[role="menubar"] .btn {
+      background-image: -webkit-linear-gradient(top, #FFF, #E6E6E6);
+      border: 1px solid #aaa;
+      color: #333;
+      display: inline-block;
+      float: left;
+      padding: 8px;
+      position: relative;
+      margin: 0 0 0 -1px;
+      text-decoration: none;
+    }
+
+    div[role="menubar"] .btn:first-child {
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
+      margin-left: 0;
+    }
+
+    div[role="menubar"] .btn:last-child {
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+
+    div[role="menubar"] .btn:hover,
+    div[role="menubar"] .btn:focus {
+      background-image: -webkit-linear-gradient(top, #EEE, #CCC);
+    }
+
+    div[role="menubar"] .btn:focus {
+      outline: thin dotted #333;
+      outline: 5px auto -webkit-focus-ring-color;
+      outline-offset: -4px;
+    }
+
+    div[role="menubar"] .btn:active {
+      background-image: -webkit-linear-gradient(top, #DDD, #CCC);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);
+    }
+
+    div[role="menubar"] .btn[aria-pressed="true"], 
+    div[role="menubar"] .btn[aria-pressed="true"]:hover,
+    div[role="menubar"] .btn[aria-pressed="true"]:focus {
+      background-image: -webkit-linear-gradient(top, #DDD, #CCC);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    div[role="menubar"] .btn[aria-disabled="true"], 
+    div[role="menubar"] .btn[aria-disabled="true"]:focus, 
+    div[role="menubar"] .btn[aria-disabled="true"]:active {
+      background-color: #eee;
+      background-image: none;
+      box-shadow: none;
+      color: #ccc;
+      cursor: default;
+    }
+  </style>
+
+</head>
+<body>
+
+  <h2>Menu</h2>
+  <div class="menubar">
+    <a href="#" class="btn">File</a>
+    <a href="#" class="btn">Edit</a>
+    <a href="#" class="btn">Tools</a>
+  </div>
+
+  <h2>Radio menu set</h2>
+  <div role="menu">
+    <div class="menubar" data-menu="radio">
+      <a href="#" class="btn">Left</a>
+      <a href="#" class="btn">Center</a>
+      <a href="#" class="btn menuDefault">Right</a>
+      <a href="#" class="btn">Justified</a>
+    </div>
+
+    <div class="menubar" data-menu="radio">
+      <a href="#" class="btn">One</a>
+      <a href="#" class="btn">Two</a>
+      <a href="#" class="btn">Three</a>
+    </div>
+
+    <div class="menubar" data-menu="radio" data-menurequired="false">
+      <a href="#" class="btn">Yes</a>
+      <a href="#" class="btn">Maybe</a>
+      <a href="#" class="btn">No</a>
+    </div>
+
+  </div>
+
+  <h2>Checkbox menubar</h2>
+  <div class="menubar" data-menu="checkbox">
+    <a href="#" class="btn"><strong>B</strong></a>
+    <a href="#" class="btn"><u>U</u></a>
+    <a href="#" class="btn"><i>I</i></a>
+  </div>
+
+  <h2>Disabled buttons</h2>
+  <div class="menubar">
+    <a href="#" class="btn">Item 1</a>
+    <a href="#" class="btn" aria-disabled="true">Item 2</a>
+    <a href="#" class="btn">Item 3</a>
+    <a href="#" class="btn">Item 4</a>
+    <a href="#" class="btn" aria-disabled="true">Item 5</a>
+  </div>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <!--<script src="jquery.menubar.js"></script>-->
+  <script src="jquery.menubar.min.js"></script>
+  <script>
+    $(".menubar").menubar();
+
+    $(".menubar").on("select", function(event){
+      console.log(event);
+    });
+  </script>
+
+</body>
+</html>
