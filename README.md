@@ -7,12 +7,12 @@ Usage
 -----
 
 ```javascript
-  $("selector").menubar();
+$("selector").menubar();
 
-  // Events
-  $(".menubar").on("select", function(event){
-    console.log(event);
-  });
+// Events
+$(".menubar").on("select", function(event){
+  console.log(event);
+});
 ```
 
 Menu Types
@@ -21,24 +21,28 @@ Menu Types
 There are three types of menus available. Default is a menu and requires no 
 extra properties. To use Radio or Checkbox add the following property:
 
+```
   data-menu="radio"
   data-menu="checkbox"
+```
 
 ### Example:
 
 ```html
-  <div class="menubar" data-menu="radio">
-    <a href="#" class="btn">One</a>
-    <a href="#" class="btn">Two</a>
-    <a href="#" class="btn">Three</a>
-  </div>
+<div class="menubar" data-menu="radio">
+  <a href="#" class="btn">One</a>
+  <a href="#" class="btn">Two</a>
+  <a href="#" class="btn">Three</a>
+</div>
 ```
 
 ### Required element
 
 If you would like the Radio menu to be optional add the following property:
 
+```
   data-menurequired="false"
+```
 
 ### Example:
 
@@ -66,7 +70,7 @@ Setting a default item is done using the `defaultClass` option.
 
 Options
 -------
-* `defaultClass` (String) - Sets the class selector for default elements.
+* `defaultClass` (String). Default: menuDefault - Sets the class selector for default elements.
 
 License
 -------
