@@ -1,85 +1,93 @@
-/**
- * Menubar with support for ARIA properties 
+/*
+ * Menubar with ARIA
  * Requires jQuery 1.7
+ * @version 1.1
  * @author Anton Ball
+ * @license
  */
 (function($){
+	"use strict";
 
-      // Types of menus
-  var RADIO = "radio",
-      CHECK = "checkbox",
-      MENU = "menu",
-      // For minification
-      dataMenuRequired = "data-menurequired",
-      ariaPressed = "aria-pressed",
-      // Default Options
-      defaults = {
-        defaultClass: "menuDefault"
-      };
+	// Constants
 
-  $.fn.menubar = function(options) {
-    options = $.extend({}, defaults, options);
-    return this.each(function(){
-      var $this = $(this),
-          $btns = $('.btn', $this),
-          menuType = $this.attr("data-menu") || MENU,
-          check = menuType === CHECK,
-          radio = menuType === RADIO,
-          required = ($this.attr(dataMenuRequired))?$this.attr(dataMenuRequired) === "true":radio;
+	var MENU_RADIO = 'radio',
+		MENU_CHECK = 'checkbox',
+		MENU_DEFAULT = 'menu',
+		DATA_MENU_TYPE = 'menuType',
+		DATA_REQUIRED = 'menuRequired',
+		ARIA_PRESSED = 'aria-pressed';
 
-      $this.attr({
-        role: "menubar",
-        "aria-multiselectable": menuType === CHECK
-      });
+	// Methods
 
-      if (radio || check) {
-        $btns.attr(ariaPressed, false);
+	var keydownHandler = function(event){
+		var $el = $(event.target),
+			$btns = event.data.$btns,
+			index = $btns.index($el),
+			key = event.which,
+			diff = index + ((key === 39 || key === 40) ? 1 : (key === 37 || key === 38) ? -1 : 0);
 
-        // Select the default button (if supplied), only accept one for radio
-        if (radio)
-          $("." + options.defaultClass, $this).eq(0).attr(ariaPressed, true);
-        else
-          $("." + options.defaultClass, $this).attr(ariaPressed, true);
-      }
+		$btns.eq(diff % $btns.length).focus();
+	},
+	clickHandler = function(event){
+		var $target = $(event.currentTarget),
+			selected = ($target.attr(ARIA_PRESSED) === 'true'),
+			isCheckbox = event.data.isCheckbox,
+			isRadio = event.data.isRadio,
+			$menu = event.data.$menu,
+			required = $menu.data().hasOwnProperty(DATA_REQUIRED) ? $menu.data(DATA_REQUIRED) : isRadio;
 
-      $btns.on("keydown", function(event){
-        var index = $(this, $this).index(),
-            length = $btns.length;
+		event.preventDefault();
+		if ($target.attr('aria-disabled') === 'true'){
+			event.stopImmediatePropagation();
+			return;
+		}
+		
+		if (isRadio) {
+			if (required && selected) {
+				event.stopImmediatePropagation();
+				return;
+			}
+			$menu.find('[aria-pressed="true"]').attr(ARIA_PRESSED, false);
+			$target.attr(ARIA_PRESSED, !selected);
+		} else if (isCheckbox) {
+			$target.attr(ARIA_PRESSED, !selected);
+		}
 
-        if (event.which === 39/*right*/)
-          index = ((index += 1) < length)?index:0;
-        else if (event.which === 37/*left*/)
-          index = ((index -= 1) >= 0)?index:length-1;
-        else
-          return;
+		$menu.trigger('click');
+	};
 
-        $btns.eq(index).focus();
-      });
+	$.fn.menubar = function(options){
+		var settings = $.extend({selectedClass: 'menu-selected', buttonClass: 'btn'}, options);
 
-      // Event handler for the buttons
-      $btns.on("click", function(event){
-        event.preventDefault();
+		return this.each(function(){
+			var $this = $(this),
+				$btns = $this.find('.' + settings.buttonClass),
+				isRadio, isCheckbox;
 
-        var $target = $(event.currentTarget),
-            selected = !($target.attr(ariaPressed) === "false"),
-            eventData = {};
+			$this.data(DATA_MENU_TYPE, $this.data(DATA_MENU_TYPE) || MENU_DEFAULT);
+			isRadio = $this.data(DATA_MENU_TYPE) === MENU_RADIO;
+			isCheckbox = $this.data(DATA_MENU_TYPE) === MENU_CHECK;
 
-        if ($target.attr("aria-disabled") === "true") return;
+			// Set ARIA properties
 
-        if (radio) {
-          if (required && selected) return;
-          $('[aria-pressed="true"]', $this).attr(ariaPressed, false);
-          $target.attr(ariaPressed, !selected);
-        } else if (check) {
-          $target.attr(ariaPressed, !selected);  
-          $.extend(eventData, {selected: !selected});
-        }
+			$this.attr({
+				role: 'menubar',
+				'aria-multiselectable': isCheckbox
+			});
 
-        $target.trigger($.Event("select", eventData));
+			if (isRadio || isCheckbox) {
+				$btns.attr(ARIA_PRESSED, false);
+				// Preselect any buttons. Radios limited to first instance.
+				$btns.filter('.' + settings.selectedClass + (isRadio ? ':eq(0)':'')).attr(ARIA_PRESSED, true);
+			}
 
-      });
+			// Events
 
-    });
-  };
+			$this.on({'keydown': keydownHandler,
+					  'click': clickHandler}, '.btn', {$menu: $this, $btns: $btns, isRadio: isRadio, isCheckbox: isCheckbox});
 
-})(jQuery);
+		});
+
+	};
+
+}(jQuery));
