@@ -78,6 +78,7 @@ Setting a default item is done using the class set in the `menu-selected` option
 Options
 -------
 * `menu-selected` (String). Default: menu-selected - Sets the class selector for default elements.
+* `buttonClass` (String). Default: btn - Sets the class selector for button elements.
 
 License
 -------
